@@ -8,8 +8,8 @@ const app = express();
 const notFoundHandler = require('./handlers/404.js');
 const errorHandler = require('./handlers/500.js');
 
-const peopleRoutes = require('./routes/people.js');
-const bicyclesRoutes = require('./routes/bicycles.js');
+const peopleRoutes = require('./routes/owner.js');
+const bicyclesRoutes = require('./routes/bicycles.route.js');
 
 app.use(cors());
 app.use(express.json());

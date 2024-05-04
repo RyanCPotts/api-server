@@ -10,6 +10,14 @@ const Bicycles = (sequelize, DataTypes) => sequelize.define('Bicycles', {
     allowNull: false,
   },
 
+  ownerId: {
+    type: DataTypes.INTEGER,
+    references: {
+      model: 'Bicycles',
+      key: 'id',
+    },
+  },
+
 });
 
 module.exports = Bicycles;
