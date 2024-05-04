@@ -6,7 +6,7 @@ const express = require('express');
 
 const router = express.Router();
 
-const {Bicycles} = require('../models/index.js');
+const {Bicycles, Owner} = require('../models/index.js');
 
 
 // RESTful route definitions
@@ -18,13 +18,25 @@ router.delete('/Bicycles/:id', deleteBicycle);
 
 // ROUTE HANDLERS
 async function getBicycles( request, response ) {
-  let data = await Bicycles.findAll();
+  let data = await Bicycles.read(null,
+  //   {
+  //   include: {
+  //     model: Owner.model
+  //   }
+  // }
+);
   response.status(200).json(data);
 }
 
 async function getOneBicycle( request, response ) {
   let id = request.params.id;
-  let data = await Bicycles.findOne({where: {id:id}});
+  let data = await Bicycles.read(id,
+  //   {
+  //   include: {
+  //     model: Owner.model,
+  //   }
+  // }
+);
   response.status(200).json(data);
 }
 
@@ -37,14 +49,13 @@ async function createBicycle( request, response ) {
 async function updateBicycle( request, response ) {
   let id = request.params.id;
   let data = request.body;
-  let person = await Bicycles.findOne({where: {id:id}});
-  let updatedBicycle = await person.update(data);
+  let updatedBicycle = await Bicycles.update(id, data);
   response.status(200).json(updatedBicycle);
 }
 
 async function deleteBicycle( request, response ) {
   let id = request.params.id;
-  let deletedBicycle = await Bicycles.destroy( {where: {id:id}} );
+  let deletedBicycle = await Bicycles.delete( id );
   if ( typeof deletedBicycle === "number" ) {
     response.status(204).send(null);
   } else {
